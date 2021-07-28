@@ -1,3 +1,4 @@
+// https://codeforces.com/contest/1552/problem/D
 #include <bits/stdc++.h>
 
 using namespace std;
