@@ -56,7 +56,6 @@ void rem(int x){
  
 int main() {
     FAST;
-    //freopen("easy", "r", stdin);
     cin >> n;
     for(int i=0;i<n;i++){
         cin >> a[i];
