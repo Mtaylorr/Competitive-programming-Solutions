@@ -36,7 +36,7 @@ struct node {
     node *chld[2];
  
     node() {
-        chld[L] = chld[R] = emp;
+        chld[L] = chld[R] = this;
         v = 0;
         p = INT_MIN;
         freq = 0;
