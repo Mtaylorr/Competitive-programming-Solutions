@@ -78,6 +78,7 @@ void init(){
     adj.resize(n+1);
     depth.resize(n+1);
     node2ind.resize(n+1);
+    ind2node.clear();
     roots.resize(n+1);
     parents.resize(n+1);
 }
