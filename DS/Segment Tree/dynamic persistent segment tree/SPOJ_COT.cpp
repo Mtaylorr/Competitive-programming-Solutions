@@ -75,6 +75,7 @@ int query(node *rtu, node *rtv, node *rtLCA ,node *rtPLCA, int k, int nst=INT_MI
 }
 
 void init(){
+    adj.clear();
     adj.resize(n+1);
     depth.resize(n+1);
     node2ind.resize(n+1);
