@@ -1,4 +1,4 @@
-https://www.spoj.com/problems/KQUERY/
+//https://www.spoj.com/problems/KQUERY/
 #include <bits/stdc++.h>
 
 using namespace std;
