@@ -59,13 +59,6 @@ void buildSuffix_N_logN(){
     }while(newrnk[len-1]!=len-1);
 }
 
-
-void buildSuffix_N2_logN(){
-    for(len=0;!len||s[len-1];++len)
-        suff[len]=len;
-    sort(suff, suff+len,[](int a,int b){return strcmp(s+a,s+b)<0;});
-}
-
 void buildLCP(){
     int cnt=0;
     for(int i=0;s[i];++i){
