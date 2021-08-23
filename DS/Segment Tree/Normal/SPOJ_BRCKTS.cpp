@@ -38,22 +38,6 @@ void build(int id=0,int ns = 0, int ne = n-1){
     tree[id] = mrg(tree[l],tree[r]);
 }
 
-
-node query(int qs, int qe, int id=0, int ns=0, int ne=n-1){
-    if(ns>qe || qs>ne){
-        return node(0,0); ///infnity
-    }
-    if(qs<=ns && qe>=ne){
-        return tree[id];
-    }
-    int l = 2*id+1;
-    int r = l+1;
-    int md = ns+(ne-ns)/2;
-    node ndl = query(qs, qe, l, ns, md);
-    node ndr = query(qs, qe,r, md+1,ne);
-    return mrg(ndl,ndr );
-}
-
 void upd(int pos, int id=0, int ns=0,int ne=n-1){
     if(ns>pos || pos>ne){
         return;
