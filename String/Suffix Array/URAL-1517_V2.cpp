@@ -70,7 +70,6 @@ void buildLCP(){
     int cnt=0;
     for(int i=0;s[i];++i){
         int j = suff[rnk[i]-1];
-        cnt=0;
         while(s[i+cnt]==s[j+cnt])
             cnt++;
         LCP[rnk[i]] = cnt;
