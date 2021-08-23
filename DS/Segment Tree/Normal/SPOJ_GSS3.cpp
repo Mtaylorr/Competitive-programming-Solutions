@@ -32,7 +32,7 @@ node mrg(node &x, node& y){
     res.p = max({x.p, x.sm+y.p});
     res.s = max({y.s, y.sm+x.s});
     res.sm = x.sm+y.sm;
-    res.ans = max({x.ans,y.ans, x.s + y.p,res.sm});
+    res.ans = max({x.ans,y.ans, x.s + y.p});
 
     return res;
 }
