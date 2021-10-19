@@ -13,8 +13,8 @@ const int N = 1e5+5;
 const int MOD = 1e9 +7;
 
 
-vector<int> up[1005], down[1005];
-int B = 3000;
+vector<int> up[10005], down[10005];
+int B = 10000;
 int a[N];
 set<int> small, big;
 int x[N], y[N], x_cnt[N], y_cnt[N];
@@ -30,36 +30,59 @@ void init(){
     }
 }
 
+int sum(int l, int r){
+    return cum[r]-(l==0?0:cum[l-1]);
+}
+
 void work(int u){
     for(int i=0;i<n;){
         if(a[i]>u)
             break;
-        int j=i;
-        int res=0;
-        while(j<n && res+a[j]<=u){
-            res+=a[j];
-            j++;
+        int r=n-1;
+        int l=i;
+        while(l<r-1){
+            int md = (l+r)/2 ;
+            if(sum(i,md)<=u){
+                l=md;
+            }else{
+                r=md-1;
+            }
         }
-        up[u].pb(j-1);
-        i=j;
+        int last;
+        if(sum(i,r)<=u){
+            last=r;
+        }else{
+            last=l;
+        }
+        up[u].pb(last);
+        i=last+1;
     }
+
     for(int i=n-1;i>=0;){
         if(a[i]>u)
             break;
-        int j=i;
-        int res=0;
-        while(j>=0 && res+a[j]<=u){
-            res+=a[j];
-            j--;
+        int l=0;
+        int r=i;
+        while(l<r-1){
+            int md = (l+r)/2 ;
+            if(sum(md,i)<=u){
+                r=md;
+            }else{
+                l=md+1;
+            }
         }
-        down[u].pb(j+1);
-        i=j;
+        int last;
+        if(sum(l,i)<=u){
+            last=l;
+        }else{
+            last=r;
+        }
+        down[u].pb(last);
+        i=last-1;
+
     }
 }
 
-int sum(int l, int r){
-    return cum[r]-(l==0?0:cum[l-1]);
-}
 
 int getup(int x, int x_cnt){
     if(x_cnt==0)
@@ -72,7 +95,7 @@ int getup(int x, int x_cnt){
         return -1;
     }else{
         int nb=0;
-        int last=-10;
+        int last=-1;
         for(int i=0;i<n;){
             if(a[i]>x)
                 break;
@@ -112,7 +135,7 @@ int getdown(int x, int x_cnt){
         return n;
     }else{
         int nb=0;
-        int last=n+10;
+        int last=n;
         for(int i=n-1;i>=0;){
             if(a[i]>x)
                 break;
