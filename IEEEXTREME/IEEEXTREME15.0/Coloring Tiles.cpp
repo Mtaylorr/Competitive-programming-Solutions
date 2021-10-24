@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+//50%
+include <bits/stdc++.h>
 
 #define pb push_back
 #define fi first
