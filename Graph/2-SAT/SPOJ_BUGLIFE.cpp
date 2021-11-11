@@ -31,7 +31,7 @@ struct Adj{
 
 }adj;
 
-int vid=0, vis[N], nodes[N], ndcnt=0, comp[N], comps, notsrc[N], notsnk[N];
+int vid=0, vis[N], nodes[N], ndcnt=0, comp[N], comps;
 int dfst[N], low[N], curt=0;
 
 
@@ -66,16 +66,6 @@ void tarjan(){
     for(int i=0;i<adj.n;i++){
         if(vis[i]!=vid)
             dfs(i);
-    }
-
-    for(int u=0;u<adj.n;u++){
-        neig(adj, u,e,v){
-            int compu = comp[u], compv=comp[v];
-            if(compu!=compv){
-                notsrc[compv]=vid;
-                notsnk[compu]=vid;
-            }
-        }
     }
 }
 
