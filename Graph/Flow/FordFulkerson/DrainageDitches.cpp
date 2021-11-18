@@ -1,11 +1,5 @@
-//https://vjudge.net/problem/HDU-1532
+#include <bits/stdc++.h>
 
-
-//#include <bits/stdc++.h>
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-#include<climits>
 
 #define pb push_back
 #define fi first
