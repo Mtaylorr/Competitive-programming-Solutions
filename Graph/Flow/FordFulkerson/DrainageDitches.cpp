@@ -1,6 +1,5 @@
+//https://vjudge.net/problem/HDU-1532
 #include <bits/stdc++.h>
-
-
 #define pb push_back
 #define fi first
 #define se second
