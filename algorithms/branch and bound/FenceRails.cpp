@@ -30,10 +30,14 @@ bool swim(int avind, int freqind, int waste, int rem){
             break;
         available[avind]-=i;
         freq[i]--;
-        if(swim(avind, i,waste, rem-1))
+        if(swim(avind, i,waste, rem-1)){
+            freq[i]++;
+            available[avind]+=i;
             return true;
+        }
         freq[i]++;
         available[avind]+=i;
+
     }
     return swim(avind+1, 0, waste-available[avind],rem);
 
