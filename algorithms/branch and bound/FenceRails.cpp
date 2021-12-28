@@ -23,11 +23,14 @@ bool swim(int avind, int freqind, int waste, int rem){
         return true;
     if(waste<0 || avind==n)
         return false;
+    int i;
+    bool cancut=false;
     for(int i=freqind;i<=mx;i++){
         if(!freq[i]==0)
             continue;
         if(available[avind]<i)
             break;
+        cancut=true;
         available[avind]-=i;
         freq[i]--;
         if(swim(avind, i,waste, rem-1)){
@@ -37,9 +40,10 @@ bool swim(int avind, int freqind, int waste, int rem){
         }
         freq[i]++;
         available[avind]+=i;
-
     }
-    return swim(avind+1, 0, waste-available[avind],rem);
+    if(!cancut)
+        return swim(avind+1, 0, waste-available[avind],rem);
+    return false;
 
 }
 
