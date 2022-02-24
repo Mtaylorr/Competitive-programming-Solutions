@@ -43,6 +43,7 @@ void mrg(int u, int v){
             ans[u]=min(ans[u], e.fi);
         }
     }
+    freq[id[v]].clear();
 }
 
 void dfs(int u, int p=-1, int d=0){
