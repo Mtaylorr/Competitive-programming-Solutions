@@ -58,12 +58,28 @@ bool compare(project &a, project &b)
     return a.score < b.score;
 }
 
+bool compare_score(project &a, project &b)
+{
+    if (a.score == b.score)
+        return a.best_before < b.best_before;
+
+    return a.score > b.score;
+}
+
 bool compare_bb(project &a, project &b)
 {
     if (a.best_before == b.best_before)
         return a.score > b.score;
 
     return a.best_before < b.best_before;
+}
+
+bool compare_nb(project &a, project &b)
+{
+    if (a.order.size() == b.order.size())
+        return a.score > b.score;
+
+    return a.order.size()  < b.order.size() ;
 }
 
 
@@ -204,7 +220,7 @@ pair<ll,ll> mcmf(){
     ll f=0, c=0;
     while(bellmanford()){
         f+=fl[snk];
-        c=max(c,dist[snk]);
+        c=max(c,fl[snk]*dist[snk]);
         for(int u=snk;u!=src;u=to[par[u]^1]){
             cap[par[u]]-=fl[snk];
             cap[par[u]^1]+=fl[snk];
@@ -216,7 +232,7 @@ pair<ll,ll> mcmf(){
 int main()
 {
     //freopen("a_an_example.in.txt", "r",stdin);
-    //freopen("b_better_start_small.in.txt", "r",stdin);
+    freopen("b_better_start_small.in.txt", "r",stdin);
     //freopen("c_collaboration.in.txt", "r",stdin);
     //freopen("d_dense_schedule.in.txt", "r",stdin);
     //freopen("e_exceptional_skills.in.txt","r",stdin);
@@ -257,7 +273,7 @@ int main()
         projects.pb(proj);
     }
 
-    sort(projects.begin(), projects.end(), compare);
+    sort(projects.begin(), projects.end(), compare_score);
 
     vector<int> solvedProjects;
     memset(st, 0, sizeof(st));
@@ -299,6 +315,7 @@ int main()
                         for(auto y:contributors[u].new_skills){
                             maxSkill[y.fi]=max(maxSkill[y.fi], y.se);
                         }
+                        break;
                     }
                 }
             }
@@ -357,22 +374,27 @@ int main()
                 if(v>=c && v!=src && cap[e]==0){
                     string skill = project.order[v-c];
                     project.contributors[v-c]=u;
+
                     break;
                 }
             }
         }
+
         for(auto u:project.contributors){
             st[u]=endDate;
         }
         for(int j=0;j<project.order.size();j++){
             int id = project.contributors[j];
-            if((contributors[id].new_skills[skill]==project.roles[j]-1 ) || (contributors[id].new_skills[skill]==project.roles[j])){
+            string skill = project.order[j];
+            if(contributors[id].new_skills[skill]==project.roles[j] || contributors[id].new_skills[skill]==project.roles[j]-1){
                 contributors[id].new_skills[skill]++;
             }
+
         }
+
     }
     cout << test(solvedProjects)<< endl;
-   /* cout << solvedProjects.size() << endl;
+    /*cout << solvedProjects.size() << endl;
     for(auto i:solvedProjects){
         cout << projects[i].name  << endl;
         for(auto j:projects[i].contributors){
