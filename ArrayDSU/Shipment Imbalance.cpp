@@ -63,7 +63,7 @@ int main()
             int v = getid(u);
             int curl = max(last+1, l[v]);
             last = u;
-            ans+=i**1ll*(r[v]-u+1)*(u-curl+1);
+            ans+=i*1ll*(r[v]-u+1)*(u-curl+1);
         }
     }
 
