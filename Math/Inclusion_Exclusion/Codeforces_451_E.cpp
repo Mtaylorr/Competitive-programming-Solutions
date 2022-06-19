@@ -64,7 +64,6 @@ ll cnk(ll n, ll k){
 
 int main() {
     //freopen("input.txt", "r", stdin);
-    //freopen("adam.in", "r", stdin);
     memset(invt, -1, sizeof(invt));
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -91,7 +90,6 @@ int main() {
                 ans=add(ans, cnk(rem,n));
             }
         }
-       // cout << rem <<" "<<ans<< endl;
     }
     cout << ans;
 
