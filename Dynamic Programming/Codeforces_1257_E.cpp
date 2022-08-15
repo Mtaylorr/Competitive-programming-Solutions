@@ -15,23 +15,10 @@ const int MOD = 1e9 + 7;
 
 int k[3];
 int a[3][N];
-int tree[3][N];
 int n;
 int dp[3][N];
 int pos[N];
 
-void upd(int b, int x, int v){
-    for(;x<=n;x+=(x)&(-x)){
-        tree[b][x]+=v;
-    }
-}
-int get(int b, int x){
-    int rs=0;
-    for(;x;x-=(x)&(-x)){
-        rs+=tree[b][x];
-    }
-    return rs;
-}
 
 int main() {
     freopen("input.txt", "r", stdin);
