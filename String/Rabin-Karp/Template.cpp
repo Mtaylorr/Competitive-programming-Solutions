@@ -36,7 +36,6 @@ struct modularOperations {
 
 const int invBASE[2] = {mop.inv(BASE[0], MOD[0]), mop.inv(BASE[1], MOD[1])};
 
-class CustomHashing;
 
 struct CHASH {
     static const int SEPERATOR = int(1e9) + 11;/// make sure this is bigger than both mods !!!!
