@@ -196,7 +196,6 @@ int buildCentroid(int u) {
         if (done[v]) continue;
         int x = buildCentroid(v);
         par[x] = src;
-
     }
     return src;
 }
@@ -224,8 +223,10 @@ ll calc(int u, int ub) {
     int d = 0;
     int p = u;
     while (p != -1) {
-        int x = compressor[p][0].greatestSmallerThanOrEqual(ub);
-        sm += ft[p][0].getprefix(x + 1);
+        if (dist[u][d] <= ub) {
+            int x = compressor[p][0].greatestSmallerThanOrEqual(ub);
+            sm += ft[p][0].getprefix(x + 1);
+        }
         d++;
         p = par[p];
     }
@@ -233,8 +234,10 @@ ll calc(int u, int ub) {
     p = u;
     d = 0;
     while (par[p] != -1) {
-        int x = compressor[p][1].greatestSmallerThanOrEqual(ub);
-        sm -= ft[p][1].getprefix(x + 1);
+        if (dist[u][d + 1] <= ub) {
+            int x = compressor[p][1].greatestSmallerThanOrEqual(ub);
+            sm -= ft[p][1].getprefix(x + 1);
+        }
         d++;
         p = par[p];
     }
