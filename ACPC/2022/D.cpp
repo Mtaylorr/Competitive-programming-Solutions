@@ -193,7 +193,7 @@ struct DynSegTree {
         return idx;
     }
 
-    int firstOnCondition(int na, int nb, int nc, int l, int r) {
+    int firstOnCondition(int na, int nb, int nc, int l, int r, int vc) {
         if (l == r) {
             return l;
         }
@@ -201,11 +201,11 @@ struct DynSegTree {
         int la = getval(left(na));
         int lb = getval(left(nb));
         int lc = getval(left(nc));
-        int sum = la + lb - 2 * lc;
+        int sum = la + lb - 2 * lc + (vc<=md && vc!=-1);
         if (md - l + 1==sum) {
-            return firstOnCondition(right(na), right(nb), right(nc), md + 1, r);
+            return firstOnCondition(right(na), right(nb), right(nc), md + 1, r,vc);
         }
-        return firstOnCondition(left(na), left(nb), left(nc), l, md);
+        return firstOnCondition(left(na), left(nb), left(nc), l, md,vc);
     }
 } sg;
 
@@ -277,7 +277,7 @@ void test_case() {
         --u, --v;
         int lc = lca.getlca(u, v);
         int x = sg.firstOnCondition(nodes[u], nodes[v], nodes[lc], 0,
-                                    sz(nt.primes) - 1);
+                                    sz(nt.primes) - 1, a[lc]);
         cout << nt.primes[x] << "\n";
     }
 }
