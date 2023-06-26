@@ -34,7 +34,7 @@ class DynSegTree {
     int left(int u) { return u == -1 ? u : lch[u]; }
     int right(int u) { return u == -1 ? u : rch[u]; }
 
-    T mrg(T u, T v) { return (u + v); }
+    T mrg(T u, T v) { return max(u , v); }
 
     T getval(int u) {
         if (u != -1) {
