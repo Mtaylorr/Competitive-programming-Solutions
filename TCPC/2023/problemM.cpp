@@ -18,80 +18,83 @@ void dbg_out(Head H, Tail... T) {
 }
 #define dbg(...) cerr << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
 typedef long long ll;
-const int N = 205 + 5;
+const int N = 3e5 + 5;
 const int MOD = 1e9 + 7;
 
-struct DSUGraph {
-    vector<int> id, sz;
-    void init(int n) {
-        id.assign(n, 0);
-        sz.assign(n, 0);
-        for (int i = 0; i < n; i++) {
-            id[i] = i;
-            sz[i] = 1;
-        }
-    }
-    int getid(int u) { return (u == id[u] ? u : id[u] = getid(id[u])); }
-    bool sameSet(int u, int v) { return getid(u) == getid(v); }
-    void uni(int u, int v) {
-        v = getid(v);
-        u = getid(u);
-        if (u == v) return;
-        id[u] = v;
-        sz[v] += sz[u];
-    }
-} dsu;
+int id[N];
+int getid(int u) { return id[u] == u ? u : id[u] = getid(id[u]); }
 
+void uni(int u, int v) {
+    u = getid(u);
+    v = getid(v);
+    id[u] = v;
+}
+
+void init(int n) {
+    for (int i = 0; i < n; i++) {
+        id[i] = i;
+    }
+}
 string s;
 int n, k;
-set<int> st[N];
-void test_case() {
-    cin >> n >> k;
-    cin >> s;
-    vector<int> divs;
-    divs.pb(0);
-    for (int i = 1; i <= k; i++) {
-        if ((n) % i == 0) {
-            divs.pb(i);
+map<int, vector<int> > tmp;
+vector<vector<int> > comps[205];
+int dp[205][205];
+
+int calc(int p, int b) {
+    int rs = 1;
+    for (auto &u : comps[b]) {
+        set<int> st;
+        bool hasrandom = 0;
+        for (auto &v : u) {
+            int x = (v + p) % n;
+            if (s[x] == '?') {
+                hasrandom = 1;
+            } else {
+                st.insert(s[x] - 'a');
+            }
+        }
+        if (st.size() >= 2) return 0;
+        if (st.size() == 0) {
+            rs = (rs * 1ll * 26);
         }
     }
-    int m = divs.size();
+    return rs;
+}
+
+int solve(int p, int s) {
+    if (p > k) return 0;
+    int &rs = dp[p][s];
+    if (rs != -1) return rs;
+    rs = calc(p, s);
+    for (int i = p + 1; i <= k; i++) {
+        rs = (rs + 0ll + MOD - solve(i, __gcd(i - p, s)));
+    }
+    return rs;
+}
+
+void test_case() {
+    memset(dp, -1, sizeof(dp));
+    cin >> n >> k;
+    cin >> s;
+    for (int j = 0; j <= k; j++) {
+        tmp.clear();
+        init(n);
+        for (int i = 0; i < n; i++) {
+            uni(i, n - 1 - i);
+            int x = ((n - 1 - (i + n - j) % n) + j) % n;
+            uni(i, x);
+        }
+        for (int i = 0; i < n; i++) {
+            tmp[getid(i)].pb(i);
+        }
+        for (auto &u : tmp) {
+            comps[j].pb(u.se);
+        }
+    }
     int ans = 0;
-    for (int mask = 0; mask < (1 << m); ++mask) {
-        dsu.init(n);
-        int nb = 0;
-        for (int i = 0; i < m; i++) {
-            if ((1 << i) & mask) {
-                nb++;
-                for (int j = 0; j < n; j++) {
-                    int l = (j + divs[i]) % n;
-                    int r = ((n - 1 - j) + divs[i]) % n;
-                    dsu.uni(l, r);
-                }
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            st[i].clear();
-        }
-        for (int i = 0; i < n; i++) {
-            if (s[i] == '?') continue;
-            st[dsu.getid(i)].insert(s[i] - 'a');
-        }
-        int x = 1;
-        for (int i = 0; i < n; i++) {
-            if (i == dsu.getid(i)) {
-                if (st[i].size() == 0) {
-                    x = (x * 1ll * 26) % MOD;
-                } else if (st[i].size() >= 2) {
-                    x = 0;
-                }
-            }
-        }
-        if (nb % 2 == 0 && nb > 0) {
-            ans = (ans + MOD + 0ll - x) % MOD;
-        } else if (nb % 2) {
-            ans = (ans + x) % MOD;
-        }
+    for (int i = 0; i <= k; i++) {
+        ans = (ans + solve(i, 0)) % MOD;
     }
     cout << ans << endl;
 }
