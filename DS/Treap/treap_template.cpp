@@ -149,7 +149,7 @@ class Treap {
     T lower_bound(pitem &t, T key) {
         if (!t) return numeric_limits<T>::max();
         if (t->key >= key) {
-            return max(t->key, lower_bound(t->l, key));
+            return min(t->key, lower_bound(t->l, key));
         } else {
             return lower_bound(t->r, key);
         }
@@ -160,7 +160,7 @@ class Treap {
     T r_lower_bound(pitem &t, T key) {
         if (!t) return numeric_limits<T>::min();
         if (t->key <= key) {
-            return min(t->key, r_lower_bound(t->r, key));
+            return max(t->key, r_lower_bound(t->r, key));
         } else {
             return r_lower_bound(t->l, key);
         }
