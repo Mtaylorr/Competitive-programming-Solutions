@@ -166,7 +166,7 @@ class Treap {
         }
     }
     // return the first value after key != key
-    T next_value(T key) { return upper_bound(key + 1); }
+    T next_value(T key) { return lower_bound(key + 1); }
     // return the first value before key != key
     T prev_value(T key) { return r_lower_bound(root, key - 1); }
 
