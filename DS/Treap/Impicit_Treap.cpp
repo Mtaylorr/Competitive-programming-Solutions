@@ -1,4 +1,3 @@
-
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 ll myRand(ll B) { return (unsigned long long)rng() % B; }
 typedef struct item *pitem;
@@ -139,6 +138,46 @@ class Treap {
         mrg(root, root, t3);
     }
 
+    void replace(int idx, T value) {
+        erase(idx);
+        insert(idx, value);
+    }
+
+    void shif_k_left(int a, int b, int k) {
+        if (a > b) swap(a, b);
+        int sz = b - a + 1;
+        k %= sz;
+        if (!k) return;
+        pitem t1, t2, t3, t4;
+        split(root, b + 1, t2, t4);
+        split(t2, a, t1, t2);
+        split(t2, k, t2, t3);
+        mrg(root, t1, t3);
+        mrg(root, root, t2);
+        mrg(root, root, t4);
+    }
+
+    void shif_k_right(int a, int b, int k) {
+        if (a > b) swap(a, b);
+        int sz = b - a + 1;
+        k %= sz;
+        shif_k_left(a, b, sz - k);
+    }
+
+    void swap_positions(int a, int b) {
+        if (a == b) return;
+        if (a > b) swap(a, b);
+        pitem t1, t2, t3, t4, t5;
+        split(root, b + 1, t2, t5);
+        split(t2, a, t1, t2);
+        split(t2, 1, t2, t3);
+        split(t3, b - a - 1, t3, t4);
+        mrg(root, t1, t2);
+        mrg(root, root, t3);
+        mrg(root, root, t4);
+        mrg(root, root, t5);
+    }
+
     void show() { show(root); }
     void show(pitem &p) {
         push(p);
@@ -148,4 +187,3 @@ class Treap {
         show(p->r);
     }
 };
-Treap<int> treap;
