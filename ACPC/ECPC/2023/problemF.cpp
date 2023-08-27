@@ -26,6 +26,8 @@ const int N = 3e5 + 5;
 6 10
 15 4 12 10 6 20
 
+3 10
+3 3 3
 
 */
 
@@ -48,20 +50,21 @@ void test_case() {
     int j = 0;
     for (int i = 0; i < n; i++) {
         sm += a[i];
-        s.insert({a[i], i});
+        s.insert({-a[i], i});
+
         while (sm - a[j] >= k) {
-            if (s.count({a[j], j})) {
-                s.erase({a[j], j});
+            if (s.count({-a[j], j})) {
+                s.erase({-a[j], j});
             }
             sm -= a[j];
             j++;
         }
-        while ((*s.begin()).fi <= sm - k) {
+        while (s.size() && sm > k && (*s.begin()).fi < k - sm) {
             s.erase(s.begin());
             ans++;
         }
     }
-    cout << ans << endl;
+    cout << n-ans << endl;
 }
 
 int main() {
