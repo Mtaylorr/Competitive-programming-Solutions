@@ -1,4 +1,4 @@
-//https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=
+//https://vjudge.net/problem/UVA-10594
 #include <bits/stdc++.h>
 
 
