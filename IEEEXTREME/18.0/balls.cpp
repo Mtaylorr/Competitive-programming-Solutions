@@ -40,83 +40,6 @@ ll bruteFoce(ll n) {
     return ans;
 }
 
-// struct CountPrimesN3_4 {
-//     // https://codeforces.com/blog/entry/91632
-//     vector<int> ms;
-//     ll run(ll n) {
-//         // ll y = pow(n, 0.25) * pow(log(n), 0.5);
-//         // nt.linearSieve(y);
-//         vector<ll> v;
-//         for (ll k = 1; k * k <= n; ++k) {
-//             v.pb(k);
-//             v.pb(n / k);
-//         }
-//         sort(all(v));
-//         v.erase(unique(v.begin(), v.end()), v.end());
-
-//         ll sq = sqrt(n);
-//         auto geti = [&](ll x) {
-//             if (x <= sq)
-//                 return (int)x - 1;
-//             else
-//                 return (int)(v.size() - (n / x));
-//         };
-//         vector<ll> dp(v.size());
-//         // S(n,0)
-//         for (int i = 0; i < v.size(); i++) {
-//             dp[i] = v[i];
-//         }
-
-//         int a = 0;
-//         for (int u = 0; u < k; u++) {
-//             int p = e[u];
-//             ++a;
-//             for (int i = v.size() - 1; i >= 0; i--) {
-//                 if (v[i] < p) break;
-//                 dp[i] -= dp[geti(v[i] / p)];
-//             }
-//         }
-//         // for (int i = v.size() - 1; i >= 0; i--) {
-//         //     cout << v[i] << " " << dp[geti(v[i])] << " " << bruteFoce(v[i]) << endl;
-//         // }
-//         int bef = 0;
-//         for (int i = 0; i < k; i++) {
-//             if (e[i] <= n) {
-//                 bef++;
-//             }
-//         }
-//         // dbg(n);
-//         return n - (dp[geti(n)]);
-//     }
-// } cp;
-
-template <typename T>
-class FenwickTree {
-   public:
-    vector<T> tree;
-    int n;
-    void init(int n) {
-        tree.assign(n + 2, 0);
-        this->n = n;
-    }
-    T mrg(T &x, T &y) { return x + y; }
-
-    void upd(int x, T v) {
-        for (; x <= n; x += (x) & (-x)) {
-            tree[x] = mrg(tree[x], v);
-        }
-    }
-    T getprefix(int x) {
-        if (x <= 0) return 0;
-        T rs = 0;
-        for (; x; x -= (x) & (-x)) {
-            rs = mrg(rs, tree[x]);
-        }
-        return rs;
-    }
-    T getrange(int l, int r) { return getprefix(r) - getprefix(l - 1); }
-};
-
 const int P = 1e7 + 5;
 ll phidp[P];
 ll phidpsum[P];
@@ -137,11 +60,6 @@ struct CountPrimesN2_3 {
             phidp[j] = 1;
             phidpsum[j] = j;
         }
-        // nt.linearSieve(y);
-        // vector<int> &primes = nt.primes;
-        // if (n < 100) {
-        //     return upper_bound(all(primes), n) - primes.begin();
-        // }
         ll s = n / y;
         ans = 0;
         phi(n, k - 1);
@@ -155,13 +73,11 @@ struct CountPrimesN2_3 {
                 ind++;
                 for (int j = e[ind]; j <= y; j += e[ind]) {
                     phidp[j] = 0;
-                    // dbg(j, phidp[j]);
                 }
                 for (int j = 1; j <= y; j++) {
                     phidpsum[j] = phidpsum[j - 1] + phidp[j];
                 }
             }
-            // dbg(n, phidpsum[n]);
             ans += (phidpsum[n]) * sign;
         }
         queries.clear();
@@ -195,7 +111,6 @@ void test_case() {
         cout << n << endl;
         return;
     }
-    // cout << bruteFoce(n) << endl;
     cout << n - cp.run(n);
 }
 
